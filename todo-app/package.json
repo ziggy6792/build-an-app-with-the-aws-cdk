@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@aws-cdk/aws-apigateway": "^1.74.0",
+    "@aws-cdk/aws-dynamodb": "^1.74.0",
     "@aws-cdk/aws-lambda": "^1.74.0",
     "@aws-cdk/aws-s3": "^1.74.0",
     "@aws-cdk/aws-s3-deployment": "^1.74.0",
@@ -30,6 +31,7 @@
     "@aws-cdk/aws-sns-subscriptions": "1.74.0",
     "@aws-cdk/aws-sqs": "1.74.0",
     "@aws-cdk/core": "1.74.0",
-    "@types/aws-lambda": "^8.10.64"
+    "@types/aws-lambda": "^8.10.64",
+    "aws-sdk": "^2.797.0"
   }
 }
