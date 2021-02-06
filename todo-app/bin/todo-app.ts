@@ -3,4 +3,4 @@ import * as cdk from '@aws-cdk/core';
 import { TodoAppStack } from '../lib/todo-app-stack';
 
 const app = new cdk.App();
-new TodoAppStack(app, 'TodoAppStack2');
+new TodoAppStack(app, 'TodoAppStack8');

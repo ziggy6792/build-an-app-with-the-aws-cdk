@@ -4,30 +4,36 @@ import * as s3 from '@aws-cdk/aws-s3';
 import * as s3Deployment from '@aws-cdk/aws-s3-deployment';
 import { TodoBackend } from './todo-backend';
 import { SPADeploy } from 'cdk-spa-deploy';
+import DbTables from './constructs/db-tables';
+import utils from '../utils';
 
 export class TodoAppStack extends cdk.Stack {
   constructor(scope: cdk.App, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const todoBackend = new TodoBackend(this, 'TodoBackend');
+    const stageName = 'test';
 
-    const api = new apiGateway.LambdaRestApi(this, 'Endpoint', {
-      handler: todoBackend.handler,
-    });
+    const dbTablesContruct = new DbTables(this, utils.getConstructId('db-tables', stageName), { stageName });
 
-    const logoBucket = new s3.Bucket(this, 'LogoBucket', { publicReadAccess: true });
+    // const todoBackend = new TodoBackend(this, 'TodoBackend');
 
-    new s3Deployment.BucketDeployment(this, 'DeployLogo', {
-      destinationBucket: logoBucket,
-      sources: [s3Deployment.Source.asset('./assets')],
-    });
+    // const api = new apiGateway.LambdaRestApi(this, 'Endpoint', {
+    //   handler: todoBackend.handler,
+    // });
 
-    // Output
-    new cdk.CfnOutput(this, 'LogoPath', {
-      value: `https://${logoBucket.bucketDomainName}/my-logo.png`,
-    });
+    // const logoBucket = new s3.Bucket(this, 'LogoBucket', { publicReadAccess: true });
 
-    new cdk.CfnOutput(this, 'local-endpoint', { value: `http://localhost:4566/restapis/${api.restApiId}/prod` });
+    // new s3Deployment.BucketDeployment(this, 'DeployLogo', {
+    //   destinationBucket: logoBucket,
+    //   sources: [s3Deployment.Source.asset('./assets')],
+    // });
+
+    // // Output
+    // new cdk.CfnOutput(this, 'LogoPath', {
+    //   value: `https://${logoBucket.bucketDomainName}/my-logo.png`,
+    // });
+
+    // new cdk.CfnOutput(this, 'local-endpoint', { value: `http://localhost:4566/restapis/${api.restApiId}/prod` });
 
     // const websiteBucket = new s3.Bucket(this, 'WebsiteBucket', { publicReadAccess: true, websiteIndexDocument: 'index.html' });
 
