@@ -11,7 +11,7 @@ export class TodoAppStack extends cdk.Stack {
 
     const todoBackend = new TodoBackend(this, 'TodoBackend');
 
-    new apiGateway.LambdaRestApi(this, 'Endpoint', {
+    const api = new apiGateway.LambdaRestApi(this, 'Endpoint', {
       handler: todoBackend.handler,
     });
 
@@ -27,6 +27,8 @@ export class TodoAppStack extends cdk.Stack {
       value: `https://${logoBucket.bucketDomainName}/my-logo.png`,
     });
 
+    new cdk.CfnOutput(this, 'local-endpoint', { value: `http://localhost:4566/restapis/${api.restApiId}/prod` });
+
     // const websiteBucket = new s3.Bucket(this, 'WebsiteBucket', { publicReadAccess: true, websiteIndexDocument: 'index.html' });
 
     // new s3Deployment.BucketDeployment(this, 'DeployWebsite', {
@@ -38,6 +40,6 @@ export class TodoAppStack extends cdk.Stack {
     //   value: websiteBucket.bucketWebsiteUrl,
     // });
 
-    new SPADeploy(this, 'Website Deploy').createSiteWithCloudfront({ indexDoc: 'index.html', websiteFolder: '../frontend/build' });
+    // new SPADeploy(this, 'Website Deploy').createSiteWithCloudfront({ indexDoc: 'index.html', websiteFolder: '../frontend/build' });
   }
 }
